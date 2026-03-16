@@ -28,7 +28,7 @@ test('Test API - POST method', async ({ request }) => {
     expect(responsePost.status()).toBe(201);
 
     console.log(await responsePost.text())
-    //WORK IN PROGRESS
-    expect(await responsePost.text()).toContain(api.apiPostResponse)//ADD ID at the end from the repsonse
+    //WORK IN PROGRESS - ADD ID at the end from the repsonse
+    expect(await responsePost.text()).toContain(api.apiPostResponse)
 
 });
