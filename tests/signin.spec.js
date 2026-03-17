@@ -13,8 +13,8 @@ test.beforeEach(async ({ page }) => {
 test('Sign in from main page - positive', async ({ page }) => {
     const main = new Main(page);
 
-    main.fillUsername(process.env.ADMIN_USERNAME);
-    main.fillPassword(process.env.ADMIN_PASSWORD);
+    await main.fillUsername(process.env.ADMIN_USERNAME);
+    await main.fillPassword(process.env.ADMIN_PASSWORD);
 
     await expect(main.loginButtonLocator).toContainText(main.loginButtonText);
     main.clickSignInButton();
@@ -24,8 +24,8 @@ test('Sign in from main page - positive', async ({ page }) => {
 test('Sign in from main page - negative - username', async ({ page }) => {
     const main = new Main(page);
 
-    main.fillUsername(main.invalidSignInValue);
-    main.fillPassword(process.env.ADMIN_PASSWORD)
+    await main.fillUsername(main.invalidSignInValue);
+    await main.fillPassword(process.env.ADMIN_PASSWORD)
 
     await expect(main.loginButtonLocator).toContainText(main.loginButtonText);
     main.clickSignInButton();
