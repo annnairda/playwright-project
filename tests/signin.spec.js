@@ -44,8 +44,8 @@ test("Sign in from main page - negative - admin's username", { tag: '@regression
 test("Sign in from main page - negative - admin's password", { tag: '@regression' }, async ({ page }) => {
     const main = new Main(page);
 
-    main.fillUsername(process.env.ADMIN_USERNAME);
-    main.fillPassword(main.invalidSignInValue)
+    await main.fillUsername(process.env.ADMIN_USERNAME);
+    await main.fillPassword(main.invalidSignInValue)
 
     await expect(main.loginButtonLocator).toContainText(main.loginButtonText);
     main.clickSignInButton();
