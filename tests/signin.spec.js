@@ -7,7 +7,7 @@ test.beforeEach(async ({ page }) => {
     await main.navigateTo();
 });
 
-test('Sign in from main page - positive - admin', { tag: '@regression' }, async ({ page }) => {
+test('Sign in - positive - admin', { tag: '@regression' }, async ({ page }) => {
     const main = new Main(page);
 
     await main.fillUsername(process.env.ADMIN_USERNAME);
@@ -18,7 +18,7 @@ test('Sign in from main page - positive - admin', { tag: '@regression' }, async 
     await expect(main.welcomeMsgLocator).toHaveText(`${main.partialWelcomeMsg}${process.env.ADMIN_USERNAME}`);
 });
 
-test('Sign in from main page - positive - user', { tag: '@regression' }, async ({ page }) => {
+test('Sign in - positive - user', { tag: '@regression' }, async ({ page }) => {
     const main = new Main(page);
 
     await main.fillUsername(process.env.USER_USERNAME);
@@ -29,7 +29,7 @@ test('Sign in from main page - positive - user', { tag: '@regression' }, async (
     await expect(main.welcomeMsgLocator).toHaveText(`${main.partialWelcomeMsg}${process.env.USER_USERNAME}`);
 });
 
-test("Sign in from main page - negative - admin's username", { tag: '@regression' }, async ({ page }) => {
+test("Sign in - negative - admin's username", { tag: '@regression' }, async ({ page }) => {
     const main = new Main(page);
 
     await main.fillUsername(main.invalidSignInValue);
@@ -41,7 +41,7 @@ test("Sign in from main page - negative - admin's username", { tag: '@regression
 
 });
 
-test("Sign in from main page - negative - admin's password", { tag: '@regression' }, async ({ page }) => {
+test("Sign in - negative - admin's password", { tag: '@regression' }, async ({ page }) => {
     const main = new Main(page);
 
     await main.fillUsername(process.env.ADMIN_USERNAME);
@@ -53,7 +53,7 @@ test("Sign in from main page - negative - admin's password", { tag: '@regression
 
 });
 
-test("Sign in from main page - negative - user's username", { tag: '@regression' }, async ({ page }) => {
+test("Sign in - negative - user's username", { tag: '@regression' }, async ({ page }) => {
     const main = new Main(page);
 
     await main.fillUsername(main.invalidSignInValue);
@@ -65,7 +65,7 @@ test("Sign in from main page - negative - user's username", { tag: '@regression'
 
 });
 
-test("Sign in from main page - negative - user's password", { tag: '@regression' }, async ({ page }) => {
+test("Sign in - negative - user's password", { tag: '@regression' }, async ({ page }) => {
     const main = new Main(page);
 
     main.fillUsername(process.env.USER_USERNAME);
