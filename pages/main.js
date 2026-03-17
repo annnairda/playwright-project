@@ -8,6 +8,7 @@ export class Main {
         this.shoppingCartButtonSelector = this.page.getByTestId('cart-button');
         this.emptyShoppingCartButtonText = '🧺 Koszyk (0)';
         this.partialProductTitleSelector = 'product-title-';
+        this.productCardPartialSelector = 'product-card-'
 
         this.viewShoppingCartButton = this.page.getByTestId('cart-button')
 

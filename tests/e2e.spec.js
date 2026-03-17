@@ -38,17 +38,20 @@ allProducts.forEach(product => {
         //sprawdź czy koszyk ma 0 produktów
         await expect(mainPage.shoppingCartButtonSelector).toHaveText(mainPage.emptyShoppingCartButtonText);
 
-
-        ////////////////////////////////////////DODAĆ
-        ////nazwa produktu
-
-        // //opis produktu
-
-        // //zdjęcie produktu
-
-        // //cena produktu
-
-        // //id produktu
+        //nazwa produktu
+        await expect(page.getByTestId(`product-title-${testedProduct.id}`)).toHaveText(testedProduct.name);
+        console.log(`Nazwa produktu na stronie głównej to ${testedProduct.name}.`)
+        //opis produktu
+        await expect(page.getByTestId(`product-desc-${testedProduct.id}`)).toHaveText(testedProduct.description);
+        //zdjęcie produktu
+        await expect(page.getByTestId(`product-image-${testedProduct.id}`)).toHaveAttribute('src', `images/p${testedProduct.id}.png`);
+        //cena produktu
+        await expect(page.getByTestId(`product-price-${testedProduct.id}`)).toHaveText(`${testedProduct.price.toFixed(2)} zł`); //.toFixed(2) <= przy tym wspomogłam się AI
+        console.log(`Cena na stronie głównej to ${testedProduct.price} zł.`);
+        //id produktu
+        const productCard = page.getByTestId(`${mainPage.productCardPartialSelector}${testedProduct.id}`);
+        await expect(productCard.locator('.badge')).toHaveText(`ID: p${testedProduct.id}`);
+        console.log(`Id produktu na stronie głównej to ${testedProduct.id}.`);
 
 
         //kliknij na nazwę produktu, żeby przejść do strony priduktu
