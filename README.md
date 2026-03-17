@@ -1,3 +1,3 @@
 # playwright-project
 
-This repository stores tasks from workshops on Playwright.
+This repository stores final project from workshops on Playwright.
