@@ -21,7 +21,7 @@ const allProducts = [
 ];
 
 allProducts.forEach(product => {
-    test(`Kup produkt ${product.name}`, { tag: @e2e }, async ({ page }) => {
+    test(`Kup produkt ${product.name}`, { tag: '@e2e' }, async ({ page }) => {
         const mainPage = new Main(page);
         const productPage = new Product(page);
         const shoppingCart = new ShoppingCart(page);
