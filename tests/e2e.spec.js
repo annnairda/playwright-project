@@ -39,26 +39,47 @@ allProducts.forEach(product => {
         await expect(mainPage.shoppingCartButtonSelector).toHaveText(mainPage.emptyShoppingCartButtonText);
 
 
-        ////////////////////////////////////////DODAĆ - sprawdzić czy na stronie MAIN jest name, IMG, id, desc, price
+        ////////////////////////////////////////DODAĆ
+        ////nazwa produktu
+
+        // //opis produktu
+
+        // //zdjęcie produktu
+
+        // //cena produktu
+
+        // //id produktu
+
 
         //kliknij na nazwę produktu, żeby przejść do strony priduktu
         await page.getByTestId(`${mainPage.partialProductTitleSelector}${testedProduct.id}`).click();
 
         
         //STRONA PRODUKTU
-        await expect(page.getByRole('heading')).toHaveText(testedProduct.name);
-
-
+        //nazwa produktu
         await expect(page.locator('.title')).toHaveText(testedProduct.name);
+        //opis produktu
         await expect(page.locator('.desc')).toHaveText(testedProduct.description);
+
+        //zdjęcie produktu
+        //obecnie failuje, WIP
+        //await expect(page.getByTestId(`product-image-${testedProduct.id}`)).toHaveAttribute('src', `images/p${testedProduct.id}.png`);
+
+        //cena produktu
         await expect(page.locator('.price strong')).toHaveText(`${testedProduct.price.toFixed(2)} zł`); //('.price strong') i .toFixed(2) <= przy tym wspomogłam się AI
         console.log(`${testedProduct.price.toFixed(2)} zł`);
+        //id produktu
         await expect(page.locator('.badge')).toHaveText(`ID produktu: p${testedProduct.id}`);
 
-        //nadal widoczny pusty koszyk zaraz przed kliknięciem Dodaj do koszyka na stronie p1.html
+        //(nadal) pusty koszyk tuż przed kliknięciem Dodaj do koszyka na stronie p1.html
         await expect(mainPage.shoppingCartButtonSelector).toHaveText(mainPage.emptyShoppingCartButtonText);
 
         await page.getByTestId(`buy-btn-${testedProduct.id}`).click();
+
+
+        //TO BE DONE, poza refaktorem tego, co jest poniżej, przeniesieść wszystkie selektory do main i porduct page + shopping cart pgge
+
+        //CLICK ON CURSOR
         // await expect(page.locator('body')).toHaveText('Dodano do koszyka: Miecz Runiczny');
         // //sprawdź czy koszyk ma 1 produkt
         // await expect(mainPage.viewShoppingCartButton).toHaveText('🧺 Koszyk (1)');
