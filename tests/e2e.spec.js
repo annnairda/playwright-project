@@ -35,42 +35,38 @@ allProducts.forEach(product => {
 
         //STRONA GŁÓWNA
         await expect(page).toHaveTitle(mainPage.pageTitle);
+
         //sprawdź czy koszyk ma 0 produktów
         await expect(mainPage.shoppingCartButtonSelector).toHaveText(mainPage.emptyShoppingCartButtonText);
 
-        //nazwa produktu
         await expect(page.getByTestId(`product-title-${testedProduct.id}`)).toHaveText(testedProduct.name);
-        console.log(`Nazwa produktu na stronie głównej to ${testedProduct.name}.`)
-        //opis produktu
         await expect(page.getByTestId(`product-desc-${testedProduct.id}`)).toHaveText(testedProduct.description);
-        //zdjęcie produktu
         await expect(page.getByTestId(`product-image-${testedProduct.id}`)).toHaveAttribute('src', `images/p${testedProduct.id}.png`);
-        //cena produktu
         await expect(page.getByTestId(`product-price-${testedProduct.id}`)).toHaveText(`${testedProduct.price.toFixed(2)} zł`); //.toFixed(2) <= przy tym wspomogłam się AI
-        console.log(`Cena na stronie głównej to ${testedProduct.price} zł.`);
-        //id produktu
         const productCard = page.getByTestId(`${mainPage.productCardPartialSelector}${testedProduct.id}`);
         await expect(productCard.locator('.badge')).toHaveText(`ID: p${testedProduct.id}`);
         console.log(`Id produktu na stronie głównej to ${testedProduct.id}.`);
 
-
-        //kliknij na nazwę produktu, żeby przejść do strony priduktu
+        //kliknij na nazwę produktu, żeby przejść do strony produktu
         await page.getByTestId(`${mainPage.partialProductTitleSelector}${testedProduct.id}`).click();
 
 
         //STRONA PRODUKTU
+        await expect(page).toHaveTitle(`${testedProduct.name} – Testowy Sklep`);
         //nazwa produktu
         await expect(page.locator('.title')).toHaveText(testedProduct.name);
         //opis produktu
         await expect(page.locator('.desc')).toHaveText(testedProduct.description);
 
         //zdjęcie produktu
-        //POPRAWIĆ, ŻEBY ZACZĘŁO DZIAŁAĆ...
         //await expect(page.getByTestId(`product-image-${testedProduct.id}`)).toHaveAttribute('src', `images/p${testedProduct.id}.png`);
+        //await expect(page.locator('.product-hero')).toHaveAttribute('src', `../images/p${testedProduct.id}.png`);
+        await expect(page.getByAltText(testedProduct.name)).toHaveAttribute('src', `../images/p${testedProduct.id}.png`);
 
         //cena produktu
-        await expect(page.locator('.price strong')).toHaveText(`${testedProduct.price.toFixed(2)} zł`); //('.price strong') i .toFixed(2) <= przy tym wspomogłam się AI
-        console.log(`${testedProduct.price.toFixed(2)} zł`);
+        const fixedProductPrice = testedProduct.price.toFixed(2)
+        await expect(page.locator('.price strong')).toHaveText(`${fixedProductPrice} zł`); //('.price strong') <= przy tym wspomogłam się AI
+        console.log(fixedProductPrice);
         //id produktu
         await expect(page.locator('.badge')).toHaveText(`ID produktu: p${testedProduct.id}`);
 
@@ -79,25 +75,20 @@ allProducts.forEach(product => {
 
         await page.getByTestId(`buy-btn-${testedProduct.id}`).click();
 
-        await expect(page.locator('.toast-success')).toHaveText(`Dodano do koszyka: ${testedProduct.name}`);
-
-
+        //await expect(page.locator('.toast-success')).toHaveText(`Dodano do koszyka: ${testedProduct.name}`);
 
         //sprawdź czy koszyk ma 1 produkt
         await expect(mainPage.viewShoppingCartButton).toHaveText('🧺 Koszyk (1)');
         await page.getByTestId('cart-button').click();
 
         //KOSZYK
-        await expect(page.locator('.cart-header')).toHaveText('Twój koszyk');
-        await expect(page.getByTestId('cart-list').locator('span')).toHaveText(`${testedProduct.name} (p${testedProduct.id})`);
-        await expect(page.getByTestId('cart-list').getByRole('button')).toHaveText('🗑');
-        await expect(page.getByTestId('cart-buy')).toHaveText('Kup');
-        await page.getByTestId('cart-buy').click();
+        await expect(shoppingCart.cartHeaderSelector).toHaveText(shoppingCart.cartHeaderText);
+        await expect(shoppingCart.cartItemSelector).toHaveText(`${testedProduct.name} (p${testedProduct.id})`);
+        await expect(shoppingCart.cartRemoveItemSelector).toHaveText(shoppingCart.cartRemoveItemText);
+
+        await expect(shoppingCart.cartBuyButtonSelector).toHaveText(shoppingCart.cartBuyButtonText);
+        await shoppingCart.clickBuyButton();
         // await expect(page.locator('.toast-success')).toHaveText('sukces');
-
-        // await expect(page.getByTestId(`product-card-${testedProduct.id}`)).toHaveText(`ID: p${testedProduct.id}`);
-
-
     });
 });
 

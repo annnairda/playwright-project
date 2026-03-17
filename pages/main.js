@@ -22,8 +22,6 @@ export class Main {
         this.loginErrorText = 'Złe dane logowania';
         this.invalidSignInValue = 'abc';
  
-
-
     }
     
     async navigateTo() {
@@ -35,7 +33,6 @@ export class Main {
     }
 
     async productWithPartialSelector(option) {
-
         await this.page.getByTestId(`${this.radioOptionPartialSelector}${optionToLowerCase}`).click();
     }
 
