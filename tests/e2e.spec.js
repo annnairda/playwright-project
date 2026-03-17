@@ -15,7 +15,7 @@ const allProducts = [
     { id: 3, name: 'Peleryna Maskująca', desc: 'Przykładowy produkt o dynamicznych atrybutach. Idealny do testowania widoczności elementów w DOM-ie.', price: 349 },
     { id: 4, name: 'Mysz Gamingowa', desc: 'Model demonstracyjny sprzętu peryferyjnego. Zawiera dane do testów interakcji i atrybutów dostępności.', price: 129 },
     { id: 5, name: 'Klawiatura Mechaniczna', desc: 'Testowy model urządzenia wejściowego. Używany w scenariuszach symulujących zdarzenia klawiatury.', price: 289 },
-    { id: 6, name: 'Słuchawki Studyjne', desc: 'Produkt z kategorii audio — przykładowy element do testów list produktów i szczegółowych widoków.', price: 459},
+    { id: 6, name: 'Słuchawki Studyjne', desc: 'Produkt z kategorii audio — przykładowy element do testów list produktów i szczegółowych widoków.', price: 459 },
     { id: 7, name: 'Notes QA', desc: 'Przykładowy notatnik — idealny do testowania funkcji zapisu, filtrów lub wyszukiwania po nazwie.', price: 24.99 },
     { id: 8, name: 'Kubek Debuggera', desc: 'Klasyczny kubek promocyjny. Używany w scenariuszach zakupowych i walidacji cen produktów.', price: 49 }
 ];
@@ -54,7 +54,7 @@ allProducts.forEach(product => {
         //kliknij na nazwę produktu, żeby przejść do strony priduktu
         await page.getByTestId(`${mainPage.partialProductTitleSelector}${testedProduct.id}`).click();
 
-        
+
         //STRONA PRODUKTU
         //nazwa produktu
         await expect(page.locator('.title')).toHaveText(testedProduct.name);
@@ -62,7 +62,7 @@ allProducts.forEach(product => {
         await expect(page.locator('.desc')).toHaveText(testedProduct.description);
 
         //zdjęcie produktu
-        //obecnie failuje, WIP
+        //POPRAWIĆ, ŻEBY ZACZĘŁO DZIAŁAĆ...
         //await expect(page.getByTestId(`product-image-${testedProduct.id}`)).toHaveAttribute('src', `images/p${testedProduct.id}.png`);
 
         //cena produktu
@@ -76,24 +76,23 @@ allProducts.forEach(product => {
 
         await page.getByTestId(`buy-btn-${testedProduct.id}`).click();
 
+        await expect(page.locator('.toast-success')).toHaveText(`Dodano do koszyka: ${testedProduct.name}`);
 
-        //TO BE DONE, poza refaktorem tego, co jest poniżej, przeniesieść wszystkie selektory do main i porduct page + shopping cart pgge
 
-        //CLICK ON CURSOR
-        // await expect(page.locator('body')).toHaveText('Dodano do koszyka: Miecz Runiczny');
-        // //sprawdź czy koszyk ma 1 produkt
-        // await expect(mainPage.viewShoppingCartButton).toHaveText('🧺 Koszyk (1)');
-        // await page.getByTestId('cart-button').click();
 
-        // //KOSZYK
-        // await expect(page.getByTestId('cart-panel')).toHaveText('Twój koszyk');
-        // await expect(page.getByTestId('cart-list').locator('span')).toHaveText('Miecz Runiczny (p1)');
-        // await expect(page.getByTestId('cart-list').getByRole('button')).toHaveText('🗑');
-        // await expect(page.getByTestId('cart-buy')).toHaveText('Kup');
-        // await page.getByTestId('cart-buy').click();
-        // await expect(page.locator('body')).toHaveText('sukces');
+        //sprawdź czy koszyk ma 1 produkt
+        await expect(mainPage.viewShoppingCartButton).toHaveText('🧺 Koszyk (1)');
+        await page.getByTestId('cart-button').click();
 
-        // await expect(page.getByTestId('product-card-1')).toHaveText('ID: p1');
+        //KOSZYK
+        await expect(page.locator('.cart-header')).toHaveText('Twój koszyk');
+        await expect(page.getByTestId('cart-list').locator('span')).toHaveText(`${testedProduct.name} (p${testedProduct.id})`);
+        await expect(page.getByTestId('cart-list').getByRole('button')).toHaveText('🗑');
+        await expect(page.getByTestId('cart-buy')).toHaveText('Kup');
+        await page.getByTestId('cart-buy').click();
+        // await expect(page.locator('.toast-success')).toHaveText('sukces');
+
+        // await expect(page.getByTestId(`product-card-${testedProduct.id}`)).toHaveText(`ID: p${testedProduct.id}`);
 
 
     });
