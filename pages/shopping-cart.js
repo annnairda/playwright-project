@@ -3,7 +3,7 @@ import { expect } from "@playwright/test";
 export class ShoppingCart {
     constructor(page) {
         this.page = page;
-        this.url = 'index.html';
+        this.pagePartialTitle = ' – Testowy Sklep';
         this.cartHeaderSelector = this.page.locator('.cart-header');
         this.cartHeaderText = 'Twój koszyk';
         this.cartItemSelector = this.page.getByTestId('cart-list').locator('span');
@@ -11,6 +11,8 @@ export class ShoppingCart {
         this.cartRemoveItemText = '🗑';
         this.cartBuyButtonSelector = this.page.getByTestId('cart-buy');
         this.cartBuyButtonText = 'Kup';
+        this.successToastSelector = this.page.locator('.toast-success');
+        this.successMessage = 'sukces';
     }
 
     async clickBuyButton() {

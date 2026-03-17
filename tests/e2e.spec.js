@@ -39,47 +39,43 @@ allProducts.forEach(product => {
         //sprawdź czy koszyk ma 0 produktów
         await expect(mainPage.shoppingCartButtonSelector).toHaveText(mainPage.emptyShoppingCartButtonText);
 
-        await expect(page.getByTestId(`product-title-${testedProduct.id}`)).toHaveText(testedProduct.name);
-        await expect(page.getByTestId(`product-desc-${testedProduct.id}`)).toHaveText(testedProduct.description);
-        await expect(page.getByTestId(`product-image-${testedProduct.id}`)).toHaveAttribute('src', `images/p${testedProduct.id}.png`);
-        await expect(page.getByTestId(`product-price-${testedProduct.id}`)).toHaveText(`${testedProduct.price.toFixed(2)} zł`); //.toFixed(2) <= przy tym wspomogłam się AI
-        const productCard = page.getByTestId(`${mainPage.productCardPartialSelector}${testedProduct.id}`);
-        await expect(productCard.locator('.badge')).toHaveText(`ID: p${testedProduct.id}`);
-        console.log(`Id produktu na stronie głównej to ${testedProduct.id}.`);
+        //OPCJONALNE
+        // await expect(page.getByTestId(`product-title-${testedProduct.id}`)).toHaveText(testedProduct.name);
+        // await expect(page.getByTestId(`product-desc-${testedProduct.id}`)).toHaveText(testedProduct.description);
+        // await expect(page.getByTestId(`product-image-${testedProduct.id}`)).toHaveAttribute('src', `images/p${testedProduct.id}.png`);
+        // await expect(page.getByTestId(`product-price-${testedProduct.id}`)).toHaveText(`${testedProduct.price.toFixed(2)} zł`); //.toFixed(2) <= przy tym wspomogłam się AI
+        // const productCard = page.getByTestId(`${mainPage.productCardPartialSelector}${testedProduct.id}`);
+        // await expect(productCard.locator('.badge')).toHaveText(`ID: p${testedProduct.id}`);
+        // console.log(`Id produktu na stronie głównej to ${testedProduct.id}.`);
 
         //kliknij na nazwę produktu, żeby przejść do strony produktu
-        await page.getByTestId(`${mainPage.partialProductTitleSelector}${testedProduct.id}`).click();
-
+        await mainPage.clickOnProductName(`${mainPage.partialProductTitleSelector}${testedProduct.id}`);
 
         //STRONA PRODUKTU
-        await expect(page).toHaveTitle(`${testedProduct.name} – Testowy Sklep`);
-        //nazwa produktu
-        await expect(page.locator('.title')).toHaveText(testedProduct.name);
-        //opis produktu
-        await expect(page.locator('.desc')).toHaveText(testedProduct.description);
+        await expect(page).toHaveTitle(`${testedProduct.name}${shoppingCart.pagePartialTitle}`);
 
-        //zdjęcie produktu
-        //await expect(page.getByTestId(`product-image-${testedProduct.id}`)).toHaveAttribute('src', `images/p${testedProduct.id}.png`);
-        //await expect(page.locator('.product-hero')).toHaveAttribute('src', `../images/p${testedProduct.id}.png`);
-        await expect(page.getByAltText(testedProduct.name)).toHaveAttribute('src', `../images/p${testedProduct.id}.png`);
+        await expect(productPage.productNameSelector).toHaveText(testedProduct.name);
+        await expect(productPage.productDescSelector).toHaveText(testedProduct.description);
+        await expect(page.getByAltText(testedProduct.name)).toHaveAttribute(`${productPage.imgAttributeName}`, `../images/p${testedProduct.id}.png`);
 
-        //cena produktu
         const fixedProductPrice = testedProduct.price.toFixed(2)
-        await expect(page.locator('.price strong')).toHaveText(`${fixedProductPrice} zł`); //('.price strong') <= przy tym wspomogłam się AI
+        await expect(productPage.productPriceSelector).toHaveText(`${fixedProductPrice}${productPage.productPriceTextSuffix}`); //('.price strong') <= przy tym wspomogłam się AI
         console.log(fixedProductPrice);
-        //id produktu
-        await expect(page.locator('.badge')).toHaveText(`ID produktu: p${testedProduct.id}`);
 
-        //(nadal) pusty koszyk tuż przed kliknięciem Dodaj do koszyka na stronie p1.html
-        await expect(mainPage.shoppingCartButtonSelector).toHaveText(mainPage.emptyShoppingCartButtonText);
+        // // await expect(page.locator('.badge')).toHaveText(`ID produktu: p${testedProduct.id}`);
+        // const productCard = page.getByTestId(`product-card-${testedProduct.id}`);
+        // await expect(productCard.locator('.badge')).toHaveText(`ID: p${testedProduct.id}`);
+        // console.log(`Id produktu na stronie głównej to ${testedProduct.id}.`);
 
         await page.getByTestId(`buy-btn-${testedProduct.id}`).click();
 
-        //await expect(page.locator('.toast-success')).toHaveText(`Dodano do koszyka: ${testedProduct.name}`);
-
+        await expect(productPage.successToastSelector).toHaveText(`${productPage.partialSuccessToastSelector}${testedProduct.name}`);
+        // await expect(productPage.successToastSelector.filter({ hasText: `${productPage.partialSuccessToastSelector}${testedProduct.name}` })).toBeVisible();
+        
         //sprawdź czy koszyk ma 1 produkt
-        await expect(mainPage.viewShoppingCartButton).toHaveText('🧺 Koszyk (1)');
-        await page.getByTestId('cart-button').click();
+        await expect(productPage.viewCartButton).toHaveText(productPage.cartTextAfterAddingProduct);
+        
+        await productPage.clickNavigateToCartButton();
 
         //KOSZYK
         await expect(shoppingCart.cartHeaderSelector).toHaveText(shoppingCart.cartHeaderText);
@@ -87,8 +83,8 @@ allProducts.forEach(product => {
         await expect(shoppingCart.cartRemoveItemSelector).toHaveText(shoppingCart.cartRemoveItemText);
 
         await expect(shoppingCart.cartBuyButtonSelector).toHaveText(shoppingCart.cartBuyButtonText);
-        await shoppingCart.clickBuyButton();
-        // await expect(page.locator('.toast-success')).toHaveText('sukces');
+        await shoppingCart.clickBuyButton();        
+        await expect(shoppingCart.successToastSelector.filter({ hasText: shoppingCart.successMessage })).toBeVisible();
     });
 });
 

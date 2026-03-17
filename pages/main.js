@@ -8,9 +8,7 @@ export class Main {
         this.shoppingCartButtonSelector = this.page.getByTestId('cart-button');
         this.emptyShoppingCartButtonText = '🧺 Koszyk (0)';
         this.partialProductTitleSelector = 'product-title-';
-        this.productCardPartialSelector = 'product-card-'
-
-        this.viewShoppingCartButton = this.page.getByTestId('cart-button')
+        //this.productCardPartialSelector = 'product-card-'
 
         this.loginUsernameField = this.page.getByTestId('login-username');
         this.loginPasswordField = this.page.getByTestId('login-password');
@@ -18,25 +16,17 @@ export class Main {
         this.loginButtonText = 'Zaloguj';
         this.welcomeMsgSelector = this.page.getByTestId('welcome-msg');
         this.partialWelcomeMsg = 'Witaj: ';
-        this.loginErrorSelector = this.page.getByTestId('login-error') ;
+        this.loginErrorSelector = this.page.getByTestId('login-error');
         this.loginErrorText = 'Złe dane logowania';
         this.invalidSignInValue = 'abc';
- 
+
     }
-    
+
     async navigateTo() {
         await this.page.goto(this.url);
     }
 
-    async clickProductTitle(productTitleSelector) {
-        await this.productTitlePartialSelector.click();
-    }
-
-    async productWithPartialSelector(option) {
-        await this.page.getByTestId(`${this.radioOptionPartialSelector}${optionToLowerCase}`).click();
-    }
-
-
+    //wykorzystane w signin.spec.js
     async fillUsername(username) {
         await this.loginUsernameField.fill(username);
     }
@@ -47,6 +37,11 @@ export class Main {
 
     async clickSignInButton() {
         await this.loginButtonSelector.click();
+    }
+
+    //wykorzystane w e2e.spec.js
+    async clickOnProductName(testId) {
+        await this.page.getByTestId(testId).click();
     }
 }
 
