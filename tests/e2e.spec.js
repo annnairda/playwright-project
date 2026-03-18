@@ -49,7 +49,8 @@ allProducts.forEach(product => {
         // console.log(`Id produktu na stronie głównej to ${testedProduct.id}.`);
 
         //kliknij na nazwę produktu, żeby przejść do strony produktu
-        await mainPage.clickOnProductName(`${mainPage.partialProductTitleSelector}${testedProduct.id}`);
+        //await mainPage.clickOnProductName(`${mainPage.partialProductTitleSelector}${testedProduct.id}`);
+        await mainPage.clickOnProductName(testedProduct.id);
 
         //STRONA PRODUKTU
         await expect(page).toHaveTitle(`${testedProduct.name}${productPage.pagePartialTitle}`);

@@ -40,9 +40,10 @@ export class Main {
     }
 
     //wykorzystane w e2e.spec.js
-    async clickOnProductName(testId) {
-        await this.page.getByTestId(testId).click();
+    async clickOnProductName(productId) {
+        await this.page.getByTestId(`${this.partialProductTitleSelector}${productId}`).click();
     }
+    
 }
 
 module.exports = { Main }
