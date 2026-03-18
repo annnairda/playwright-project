@@ -52,7 +52,7 @@ allProducts.forEach(product => {
         await mainPage.clickOnProductName(`${mainPage.partialProductTitleSelector}${testedProduct.id}`);
 
         //STRONA PRODUKTU
-        await expect(page).toHaveTitle(`${testedProduct.name}${shoppingCart.pagePartialTitle}`);
+        await expect(page).toHaveTitle(`${testedProduct.name}${productPage.pagePartialTitle}`);
 
         await expect(productPage.productNameSelector).toHaveText(testedProduct.name);
         await expect(productPage.productDescSelector).toHaveText(testedProduct.description);

@@ -1,6 +1,7 @@
 export class Product {
     constructor(page) {
         this.page = page;
+        this.pagePartialTitle = ' – Testowy Sklep';
         this.productNameSelector = this.page.locator('.title');
         this.productDescSelector = this.page.locator('.desc');
         this.imgAttributeName = 'src';
